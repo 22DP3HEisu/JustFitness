@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 import './index.css';
 
 import Start from './routes/start';
+import Login from './routes/login';
+import SignUp from './routes/signup';
 
-function Header() {
+export function Header() {
   return (
     <header>
       <h1>JustFitness</h1>
       <div>
-        <button class="Button1">Sign Up</button>
-        <button class="Button1">Log In</button>
+        <Link class="Button1" to="/signup">Sign Up</Link>
+        <Link class="Button1" to="/login">Log In</Link>
       </div>
     </header>
   );
@@ -18,10 +21,14 @@ function Header() {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <div>
-    <Header />
-    <main>
-      <Start />
-    </main>
-  </div>
+  <>
+    <BrowserRouter>
+      <Header/>
+      <Routes>
+        <Route path='/' element={<Start/>}></Route>
+        <Route path='/login' element={<Login/>}></Route>
+        <Route path='/signup' element={<SignUp/>}></Route>
+      </Routes>
+    </BrowserRouter>
+  </>
 );
