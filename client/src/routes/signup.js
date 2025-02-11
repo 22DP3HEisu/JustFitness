@@ -1,10 +1,27 @@
 import "../styles/signup.css"
+import axios from "axios";
 
-function SignUp() {
+function SignUp() { 
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const username = e.target.username.value;
+        const email = e.target.email.value;
+        const password = e.target.password.value;
+        axios.defaults.headers.authorization = ""
+        axios.post("http://127.0.0.1:8000/api/register", {
+            "username": username,
+            "email": email,
+            "password": password
+        });
+    }
+
     return (
         <div class="SignUp">
             <h2>Sign Up</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username"></input>
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email"></input>
                 <label for="password">Password</label>
