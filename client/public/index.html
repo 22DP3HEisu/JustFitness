@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+    <meta name="csrf-token" content="">
     <meta
       name="description"
       content="Web site created using create-react-app"
@@ -23,6 +24,16 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <script>
+      fetch('http://localhost:8000/csrf-token')
+        .then(response => response.json())
+        .then(data => {
+          console.log(data.csrf_token);
+          
+          document.querySelector('meta[name="csrf-token"]').setAttribute('content', data.csrf_token);
+        })
+        .catch(error => console.error('Error fetching CSRF token:', error));
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

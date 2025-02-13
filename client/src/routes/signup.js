@@ -1,5 +1,5 @@
 import "../styles/signup.css"
-import axios from "axios";
+import axios from "../lib/axios";
 
 function SignUp() { 
 
@@ -8,8 +8,8 @@ function SignUp() {
         const username = e.target.username.value;
         const email = e.target.email.value;
         const password = e.target.password.value;
-        axios.defaults.headers.authorization = ""
-        axios.post("http://127.0.0.1:8000/api/register", {
+        
+        axios.post("/register", {
             "username": username,
             "email": email,
             "password": password
