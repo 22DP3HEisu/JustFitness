@@ -7,15 +7,7 @@ const axios = Axios.create({
 })
 
 axios.interceptors.request.use((config) => {
-    const tokenElement = document.head.querySelector('meta[name="csrf-token"]');
-    if (tokenElement) {
-        const csrfToken = tokenElement.getAttribute('content');
-        config.headers['X-XSRF-TOKEN'] = csrfToken;
-        
-        console.log("CSRF Token:", csrfToken);
-    } else {
-        console.warn("CSRF token not found in meta tags.");
-    }
+    config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
     return config;
 });
 
