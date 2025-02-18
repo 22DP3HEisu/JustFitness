@@ -28,5 +28,26 @@ class AuthController extends Controller
         return response($response, 201);
     }
 
+    public function login(Request $request) {
+        $data = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string'
+        ]);
+
+        if (!auth()->attempt($data)) {
+            return response(['message' => 'Invalid credentials'], 401);
+        }
+
+        $user = auth()->user();
+
+        $token = $user->createToken('myapptoken')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+    }
 
 }

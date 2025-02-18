@@ -1,5 +1,6 @@
 import "../styles/signup.css"
 import axios from "../lib/axios";
+import { Router, Navigate } from "react-router-dom";
 
 function SignUp() { 
 
@@ -13,6 +14,14 @@ function SignUp() {
             "username": username,
             "email": email,
             "password": password
+        })
+        .then((response) => {
+            window.localStorage.setItem("token", response.data.token);
+
+            Navigate("/");
+        })
+        .catch((error) => {
+            console.log(error);
         });
     }
 

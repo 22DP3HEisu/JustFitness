@@ -12,8 +12,6 @@ Route::get('/', function () {
     return "Welcome";
 });
 
-Route::get('/register', function () {
-    return "Register";
-});
+Route::post("/login", [AuthController::class, "login"])->name("login");
 
 Route::post("/register", [AuthController::class, "register"])->name("register");
