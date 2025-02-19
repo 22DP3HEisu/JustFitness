@@ -1,8 +1,12 @@
 import "../styles/signup.css"
 import axios from "../lib/axios";
-import { Router, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import UserContext from "../contexts/UserContext";
+import { useContext } from "react";
 
 function SignUp() { 
+    const navigate = useNavigate();
+    const {user, setUser} = useContext(UserContext)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -17,8 +21,9 @@ function SignUp() {
         })
         .then((response) => {
             window.localStorage.setItem("token", response.data.token);
+            setUser(response.data.user);
 
-            Navigate("/");
+            navigate("/");
         })
         .catch((error) => {
             console.log(error);

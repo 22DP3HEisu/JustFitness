@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import axios from "../lib/axios";
-import "../styles/login.css"
+import "../styles/login.css";
+import UserContext from "../contexts/UserContext";
+import { useContext } from "react";
 
 function Login() {
     const navigate = useNavigate();
+    const {user, setUser} = useContext(UserContext)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,6 +19,7 @@ function Login() {
         })
         .then((response) => {
             window.localStorage.setItem("token", response.data.token);
+            setUser(response.data.user);
 
             navigate("/");
         })
