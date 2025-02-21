@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 import './index.css';
@@ -7,17 +7,15 @@ import Start from './routes/start';
 import Login from './routes/login';
 import SignUp from './routes/signup';
 import axios from './lib/axios';
+import UserContext from './contexts/UserContext';
 
 export function Header() {
-  const [user, setUser] = useState(null);
+  const {user, setUser} = useContext(UserContext);
 
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
       console.log("User is logged in");
       
-      axios.get("/user").then(({data}) => {
-        setUser(data)
-      })
       console.log(user);
     }
   }, [])

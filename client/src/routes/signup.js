@@ -1,10 +1,20 @@
 import "../styles/signup.css"
 import axios from "../lib/axios";
+<<<<<<< HEAD
 import { Router, Navigate } from "react-router-dom";
 import { useState } from "react";
 
 function SignUp() { 
     const [error, setError] = useState(null);
+=======
+import { useNavigate } from "react-router-dom";
+import UserContext from "../contexts/UserContext";
+import { useContext } from "react";
+
+function SignUp() { 
+    const navigate = useNavigate();
+    const {user, setUser} = useContext(UserContext)
+>>>>>>> 3d2139cbdd8b208ae72f76e4c1dfad24986158fd
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,8 +29,9 @@ function SignUp() {
         })
         .then((response) => {
             window.localStorage.setItem("token", response.data.token);
+            setUser(response.data.user);
 
-            Navigate("/");
+            navigate("/");
         })
         .catch((err) => {
             setError(err.message);
