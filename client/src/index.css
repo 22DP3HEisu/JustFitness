@@ -31,3 +31,7 @@ header {
   font-family: 'RussoOne', sans-serif;
   text-decoration: none;
 }
+
+.error {
+  color: red;
+}

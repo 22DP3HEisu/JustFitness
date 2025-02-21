@@ -25,7 +25,7 @@ class AuthController extends Controller
             'token' => $token
         ];
 
-        return response($response, 201);
+        return abort($response, 201);
     }
 
     public function login(Request $request) {
@@ -35,7 +35,7 @@ class AuthController extends Controller
         ]);
 
         if (!auth()->attempt($data)) {
-            return response(['message' => 'Invalid credentials'], 401);
+            return response(['message' => 'Invalid credentials'], 422);
         }
 
         $user = auth()->user();

@@ -1,8 +1,10 @@
 import "../styles/signup.css"
 import axios from "../lib/axios";
 import { Router, Navigate } from "react-router-dom";
+import { useState } from "react";
 
 function SignUp() { 
+    const [error, setError] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,14 +22,15 @@ function SignUp() {
 
             Navigate("/");
         })
-        .catch((error) => {
-            console.log(error);
+        .catch((err) => {
+            setError(err.message);
         });
     }
 
     return (
         <div class="SignUp">
             <h2>Sign Up</h2>
+            {error && <p class="error">{error}</p>}
             <form onSubmit={handleSubmit}>
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username"></input>

@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import axios from "../lib/axios";
 import "../styles/login.css"
+import { useState } from "react";
 
 function Login() {
     const navigate = useNavigate();
+    const [error, setError] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,14 +21,15 @@ function Login() {
 
             navigate("/");
         })
-        .catch((error) => {
-            console.log(error);
+        .catch((err) => {
+            setError(err.message);
         });
     }
 
     return (
         <div class="Login">
             <h2>Log In</h2>
+            {error && <p class="error">{error}</p>}
             <form onSubmit={handleSubmit}>
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email"></input>
