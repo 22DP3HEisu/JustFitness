@@ -1,21 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import axios from "../lib/axios";
-<<<<<<< HEAD
 import "../styles/login.css"
 import { useState } from "react";
 
 function Login() {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
-=======
-import "../styles/login.css";
-import UserContext from "../contexts/UserContext";
-import { useContext } from "react";
-
-function Login() {
-    const navigate = useNavigate();
-    const {user, setUser} = useContext(UserContext)
->>>>>>> 3d2139cbdd8b208ae72f76e4c1dfad24986158fd
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,7 +18,6 @@ function Login() {
         })
         .then((response) => {
             window.localStorage.setItem("token", response.data.token);
-            setUser(response.data.user);
 
             navigate("/");
         })
