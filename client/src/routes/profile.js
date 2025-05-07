@@ -1,9 +1,17 @@
-import React from 'react'
+import "../styles/profile.css";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function Profile({user}) {
+export default function Profile({ user, onLogout }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    onLogout(); // Call the logout function passed as a prop
+    navigate('/login'); // Redirect to the login page
+  };
+
   return (
     <div className="profile-container">
-      <div className="profile-card">
         <h1 className="profile-title">Profile</h1>
         <div className="profile-details">
           <p><strong>Username:</strong> {user.name}</p>
@@ -15,7 +23,7 @@ export default function Profile({user}) {
           <p><strong>Activity Level:</strong> {user.preferences?.activity_level}</p>
           <p><strong>Unit Preference:</strong> {user.preferences?.unit_preference}</p>
         </div>
-      </div>
+        <button className="logout-button" onClick={handleLogout}>Log Out</button>
     </div>
-  )
+  );
 }

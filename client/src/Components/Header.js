@@ -1,12 +1,22 @@
-import React, { useContext } from "react";
+import "../styles/header.css";
+
+import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Header({ user }) {
     return (
       <header>
-        <h1>JustFitness</h1>
+        <h1>
+          <Link to="/" className="header-link">JustFitness</Link>
+        </h1>
         {user ? (
-          <p>Welcome, {user.name}</p>
+          <div className="user-info">
+            <p>Welcome, {user.name}</p>
+            <Link className="Button1" to="/profile">Profile</Link>
+            {user.role === "admin" && (
+              <Link className="Button1" to="/admin">Admin Page</Link>
+            )}
+          </div>
         ) : (
           <div>
             <Link className="Button1" to="/signup">Sign Up</Link>
