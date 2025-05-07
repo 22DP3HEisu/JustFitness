@@ -21,6 +21,18 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('user_preferences', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Links to the users table
+            $table->integer('weight')->nullable();
+            $table->integer('height')->nullable(); // Store height in centimeters
+            $table->integer('age')->nullable();
+            $table->integer('goal_weight')->nullable();
+            $table->enum('activity_level', ['light', 'moderate', 'active', 'very_active'])->default('light');
+            $table->enum('unit_preference', ['metric', 'imperial'])->default('metric');
+            $table->timestamps();
+        });
+
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');

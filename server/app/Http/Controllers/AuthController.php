@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\Models\Preferences;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -15,7 +17,18 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $data['username'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password'])
+            'password' => bcrypt($data['password']),
+        ]);
+
+        // Create a new Preferences record for the user
+        $preferences = Preferences::create([
+            'user_id' => $user->id,
+            'weight' => $data['weight'],
+            'height' => $data['height'],
+            'age' => $data['age'],
+            'goal_weight' => $data['goalWeight'],
+            'activity_level' => $data['activityLevel'],
+            'unit_preference' => $data['unitPreference'],
         ]);
 
         $token = $user->createToken('myapptoken')->plainTextToken;
@@ -25,7 +38,7 @@ class AuthController extends Controller
             'token' => $token
         ];
 
-        return abort($response, 201);
+        return response()->json($response, 201);
     }
 
     public function login(Request $request) {

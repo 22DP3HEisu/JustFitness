@@ -1,0 +1,40 @@
+/* General container styling */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #3A4E48;
+    color: white;
+    font-family: 'RussoOne', sans-serif;
+    padding: 20px;
+  }
+  
+  /* Profile card styling */
+  .profile-card {
+    background-color: #2C3E3B;
+    border-radius: 10px;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  /* Title styling */
+  .profile-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #F4C95D;
+  }
+  
+  /* Profile details styling */
+  .profile-details p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    line-height: 1.5;
+  }
+  
+  .profile-details strong {
+    color: #F4C95D;
+  }

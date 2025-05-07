@@ -1,50 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 import './index.css';
-
-import Start from './routes/start';
-import Login from './routes/login';
-import SignUp from './routes/signup';
-import axios from './lib/axios';
-
-export function Header() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    if (window.localStorage.getItem("token")) {
-      console.log("User is logged in");
-      
-      axios.get("/user").then(({data}) => {
-        setUser(data)
-      })
-      console.log(user);
-    }
-  }, [])
-
-  return (
-    <header>
-      <h1>JustFitness</h1>
-      {user ? <p>Welcome, {user.name}</p> : 
-            <div>
-            <Link class="Button1" to="/signup">Sign Up</Link>
-            <Link class="Button1" to="/login">Log In</Link>
-          </div>
-      }
-    </header>
-  );
-}
+import { UserProvider } from './Contexts/UserContext';
+import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <>
-    <BrowserRouter>
-      <Header/>
-      <Routes>
-        <Route path='/' element={<Start/>}></Route>
-        <Route path='/login' element={<Login/>}></Route>
-        <Route path='/signup' element={<SignUp/>}></Route>
-      </Routes>
-    </BrowserRouter>
-  </>
+  <BrowserRouter>
+    <UserProvider>
+      <App />
+    </UserProvider>
+  </BrowserRouter>
 );

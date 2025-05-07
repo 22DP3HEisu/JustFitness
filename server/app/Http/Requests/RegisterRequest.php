@@ -26,7 +26,13 @@ class RegisterRequest extends FormRequest
         return [
             'username' => 'required|string',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|min:8',
+            'weight' => 'required|integer|min:0',
+            'height' => 'required|integer|min:0',
+            'age' => 'required|integer|min:0|max:150',
+            'goalWeight' => 'required|integer|min:0',
+            'activityLevel' => 'required|in:light,moderate,active,very_active',
+            'unitPreference' => 'required|in:metric,imperial',
         ];
     }
 }
