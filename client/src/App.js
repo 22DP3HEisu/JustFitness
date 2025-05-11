@@ -1,30 +1,37 @@
 import React, { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { UserContext } from './Contexts/UserContext';
+import axios from "./lib/axios.js";
 
-import Header from './Components/Header';
-import PrivateRoute from './Components/PrivateRoute';
+import Header from './routes/Header/Header';
+import PrivateRoute from './routes/PrivateRoute';
+import AdminRoute from "./routes/AdminRoute";
 
-import Start from './routes/start';
-import Login from './routes/login';
-import SignUp from './routes/signup';
-import Profile from './routes/profile';
-import Workouts from './routes/workouts';
-import CreateWorkout from "./routes/createWorkout";
-import AdminRoute from "./Components/AdminRoute";
+import Start from './routes/Start/start';
+import Login from './routes/Login/login';
+import SignUp from './routes/SignUp/signup';
+import Profile from './routes/Profile/profile';
+import Workouts from './routes/Workouts/workouts';
+import CreateWorkout from "./routes/CreateWorkout/createWorkout";
+import AdminPage from "./routes/Admin/admin";
 
 export default function App() {
     const {user, setUser} = useContext(UserContext);
 
     const handleLogout = () => {
-        // Clear the token from local storage
-        window.localStorage.removeItem("token");
+        axios.post("/logout")
+            .then(response => {
+                // Clear the token from local storage
+                window.localStorage.removeItem("token");
+                // Reset the user context
+                setUser(null);
 
-        // Reset the user context
-        setUser(null);
-
-        // Optionally, you can also clear other user-related data if needed
-        console.log("User logged out successfully");
+                console.log("Logout successful:", response.data);
+                
+            })
+            .catch(error => {
+                console.error("Logout failed:", error);
+            });
     };
 
     return (
@@ -38,18 +45,16 @@ export default function App() {
               <Route
                   path="/*"
                   element={
-                      <PrivateRoute>
-                          <Routes>
-                              <Route path="/profile" element={<Profile user={user} onLogout={handleLogout} />} />
-                              <Route path="/workouts" element={<Workouts/>} />
-                              <Route path="/create-workout" element={<CreateWorkout/>} />
-                          </Routes>
-                          <AdminRoute>
-                                <Routes> <Route path="/admin" element={<h1>Admin Page</h1>} /> </Routes>
-                          </AdminRoute>
-                      </PrivateRoute>
+                    <PrivateRoute>
+                        <Routes>
+                            <Route path="/profile" element={<Profile user={user} onLogout={handleLogout} />} />
+                            <Route path="/workouts" element={<Workouts/>} />
+                            <Route path="/create-workout" element={<CreateWorkout/>} />
+                        </Routes>
+                    </PrivateRoute>
                   }
               />
+            <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
           </Routes>
       </div>
       </>

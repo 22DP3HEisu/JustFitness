@@ -1,0 +1,68 @@
+/* General container styling */
+.workouts-container {
+    color: white;
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  /* Title styling */
+  .workouts-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #F4C95D;
+  }
+  
+  /* Filter input styling */
+  .filter-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .filter-input {
+    padding: 10px;
+    width: 80%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  /* Workout grid styling */
+  .workouts-grid {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1vh));
+    gap: 20px;
+  }
+  
+  .workout-card {
+    background-color: #2C3E3B;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  .workout-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #F4C95D;
+  }
+  
+  .workout-card {
+    background-color: #2C3E3B;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 300px;
+    margin: 0 auto;
+    border: none; /* Remove button border */
+    cursor: pointer; /* Add pointer cursor */
+    color: inherit; /* Inherit text color */
+}
+
+.workout-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Add hover effect */
+}

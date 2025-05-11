@@ -1,0 +1,155 @@
+import axios from "../../lib/axios.js";
+import "./admin.css"
+import { useEffect, useState } from "react";
+import EditableCell from "./editableCell.js";
+
+function Login() {
+    const [Accounts, SetAccounts] = useState([]);
+    const [filteredAccounts, SetFilteredAccounts] = useState([]);
+    const [SortBy, SetSortBy] = useState("id");
+    const [SortOrder, SetSortOrder] = useState("asc");
+    const [EditAccount, SetEditAccount] = useState(null);
+    const [Edits, SetEdits] = useState({});
+
+    useEffect(() => {
+        axios.get("/admin/users")
+            .then(({ data }) => {
+                SetAccounts(data);
+                SetFilteredAccounts(data);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch accounts:", err);
+            });
+    }, []);
+
+
+    const orderBy = (column) => {
+        const newSortOrder = SortBy === column && SortOrder === "asc" ? "desc" : "asc";
+        SetSortBy(column);
+        SetSortOrder(newSortOrder);
+
+        const sortedAccounts = [...Accounts].sort((a, b) => {
+            if (newSortOrder === "asc") {
+                return a[column] > b[column] ? 1 : -1;
+            } else {
+                return a[column] < b[column] ? 1 : -1;
+            }
+        });
+
+        SetFilteredAccounts(sortedAccounts);
+    };
+
+    const handleSearch = (event) => {
+        const searchTerm = event.target.value.toLowerCase();
+
+        const filteredAccounts = Accounts.filter(account => {
+            return Object.values(account).some(value =>
+                String(value).toLowerCase().includes(searchTerm)
+            );
+        });
+
+        SetFilteredAccounts(filteredAccounts);
+    }
+
+    const handleDelete = (id) => {
+        if (window.confirm("Are you sure you want to delete this account?")) {
+            axios.delete(`/admin/users/${id}`)
+                .then(() => {
+                    SetAccounts(Accounts.filter(account => account.id !== id));
+                    SetFilteredAccounts(filteredAccounts.filter(account => account.id !== id));
+                })
+                .catch((err) => {
+                    console.error("Failed to delete account:", err);
+                });
+        }
+    }
+
+    const handleChange = (field, value) => {
+        SetEdits({
+            ...Edits,
+            [field]: value
+        });
+    }
+
+    const handleEdit = (id) => {
+        if (EditAccount === id) {
+            console.log("Saving changes for account:", id);
+            const updatedAccount = {
+                ...Accounts.find(account => account.id === id),
+                ...Edits
+            };
+
+            axios.put(`/admin/users/${id}`, updatedAccount)
+                .then(() => {
+                    SetAccounts(Accounts.map(account => (account.id === id ? updatedAccount : account)));
+                    SetFilteredAccounts(filteredAccounts.map(account => (account.id === id ? updatedAccount : account)));
+                    SetEditAccount(null);
+                    SetEdits({});
+                })
+                .catch((err) => {
+                    console.error("Failed to update account:", err);
+                });
+        } else if (EditAccount === null) {
+            console.log("Editing account:", id);
+            
+            SetEditAccount(id);
+        }
+    }
+
+    return (
+        <div class="Admin">
+            <h2>Admin Page</h2>
+            <input type="text" placeholder="Search..." onChange={handleSearch} />
+            <table>
+                <thead>
+                    <tr>
+                        {["id", "name", "email", "role", "created_at", "updated_at"].map(column => (
+                            <th key={column} onClick={() => orderBy(column)}>
+                                {column.charAt(0).toUpperCase() + column.slice(1)}
+                                {SortBy === column && (SortOrder === "desc" ? " ▲" : " ▼")}
+                            </th>
+                        ))}
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredAccounts.map((account) => (
+                        <tr key={account.id}>
+                            <td>{account.id}</td>
+                            <td>
+                                <EditableCell
+                                    Value={EditAccount === account.id && Edits.name !== undefined ? Edits.name : account.name}
+                                    isEditing={EditAccount === account.id}
+                                    onChange={(value) => handleChange("name", value)}
+                                />
+                            </td>
+                            <td>
+                                <EditableCell
+                                    Value={EditAccount === account.id && Edits.email !== undefined ? Edits.email : account.email}
+                                    isEditing={EditAccount === account.id}
+                                    onChange={(value) => handleChange("email", value)}
+                                />
+                            </td>
+                            <td>
+                                <EditableCell
+                                    Value={EditAccount === account.id && Edits.role !== undefined ? Edits.role : account.role}
+                                    isEditing={EditAccount === account.id}
+                                    Field="role"
+                                    onChange={(value) => handleChange("role", value)}
+                                />
+                            </td>
+                            <td>{new Date(account.created_at).toLocaleDateString()}</td>
+                            <td>{new Date(account.updated_at).toLocaleDateString()}</td>
+                            <td>
+                                <button class="Button1" onClick={() => handleEdit(account.id)}> {EditAccount === account.id ? "Save" : "Edit"} </button>
+                                <button class="Button1" onClick={() => handleDelete(account.id)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
+}
+
+export default Login;

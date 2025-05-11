@@ -1,0 +1,51 @@
+.Admin {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.Admin h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+th {
+  background-color: #F4C95D;
+  color: #333;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 15px;
+  border-bottom: 2px solid #ddd;
+}
+
+td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #B4B16B;
+  transition: background-color 0.2s ease;
+}
+
+@media screen and (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .Admin {
+    padding: 10px;
+  }
+}

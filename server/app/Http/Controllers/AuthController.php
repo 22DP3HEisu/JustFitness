@@ -63,4 +63,16 @@ class AuthController extends Controller
         return response($response, 201);
     }
 
+    public function logout(Request $request) {
+        // Check if user is authenticated before attempting to access token
+        if ($request->user()) {
+            // Only revoke token if user exists
+            $request->user()->currentAccessToken()->delete();
+            return response()->json(['message' => 'Successfully logged out']);
+        }
+
+        // Return success even if user is already logged out
+        return response()->json(['message' => 'Already logged out']);
+    }
+
 }
