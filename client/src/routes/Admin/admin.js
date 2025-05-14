@@ -6,22 +6,30 @@ import EditableCell from "./editableCell.js";
 function Login() {
     const [Accounts, SetAccounts] = useState([]);
     const [filteredAccounts, SetFilteredAccounts] = useState([]);
+    const [roleCounts, setRoleCounts] = useState({ user: 0, admin: 0, total: 0 });
     const [SortBy, SetSortBy] = useState("id");
     const [SortOrder, SetSortOrder] = useState("asc");
     const [EditAccount, SetEditAccount] = useState(null);
     const [Edits, SetEdits] = useState({});
-
+    
     useEffect(() => {
         axios.get("/admin/users")
             .then(({ data }) => {
-                SetAccounts(data);
-                SetFilteredAccounts(data);
+                // Check if data has users property (new API structure)
+                if (data.users) {
+                    SetAccounts(data.users);
+                    SetFilteredAccounts(data.users);
+                    setRoleCounts(data.roleCounts || { user: 0, admin: 0, total: 0 });
+                } else {
+                    // Fallback for old API structure
+                    SetAccounts(data);
+                    SetFilteredAccounts(data);
+                }
             })
             .catch((err) => {
                 console.error("Failed to fetch accounts:", err);
             });
     }, []);
-
 
     const orderBy = (column) => {
         const newSortOrder = SortBy === column && SortOrder === "asc" ? "desc" : "asc";
@@ -50,13 +58,30 @@ function Login() {
 
         SetFilteredAccounts(filteredAccounts);
     }
-
+    
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to delete this account?")) {
             axios.delete(`/admin/users/${id}`)
-                .then(() => {
-                    SetAccounts(Accounts.filter(account => account.id !== id));
+                .then((response) => {
+                    const updatedAccounts = Accounts.filter(account => account.id !== id);
+                    SetAccounts(updatedAccounts);
                     SetFilteredAccounts(filteredAccounts.filter(account => account.id !== id));
+                    
+                    // Update role counts from API response if available
+                    if (response.data && response.data.roleCounts) {
+                        setRoleCounts(response.data.roleCounts);
+                    } else {
+                        // Fallback to manual calculation
+                        const deletedUser = Accounts.find(account => account.id === id);
+                        if (deletedUser) {
+                            const role = deletedUser.role;
+                            setRoleCounts(prev => ({
+                                ...prev,
+                                [role]: Math.max(0, prev[role] - 1),
+                                total: Math.max(0, prev.total - 1)
+                            }));
+                        }
+                    }
                 })
                 .catch((err) => {
                     console.error("Failed to delete account:", err);
@@ -69,18 +94,40 @@ function Login() {
             ...Edits,
             [field]: value
         });
-    }
-
+    };
+    
     const handleEdit = (id) => {
         if (EditAccount === id) {
-            console.log("Saving changes for account:", id);
-            const updatedAccount = {
+            console.log("Saving changes for account:", id);const updatedAccount = {
                 ...Accounts.find(account => account.id === id),
                 ...Edits
             };
-
+            
             axios.put(`/admin/users/${id}`, updatedAccount)
-                .then(() => {
+                .then((response) => {
+                    // Handle the response data
+                    let updatedUser = updatedAccount;
+                    
+                    // Check if response includes user and roleCounts
+                    if (response.data && response.data.roleCounts) {
+                        if (response.data.user) {
+                            updatedUser = response.data.user;
+                        }
+                        setRoleCounts(response.data.roleCounts);
+                    } else {
+                        // Fallback to manual calculation
+                        const originalAccount = Accounts.find(account => account.id === id);
+                        const roleChanged = originalAccount && Edits.role && originalAccount.role !== Edits.role;
+                        
+                        if (roleChanged) {
+                            setRoleCounts(prev => ({
+                                ...prev,
+                                [originalAccount.role]: Math.max(0, prev[originalAccount.role] - 1),
+                                [Edits.role]: prev[Edits.role] + 1
+                            }));
+                        }
+                    }
+                    
                     SetAccounts(Accounts.map(account => (account.id === id ? updatedAccount : account)));
                     SetFilteredAccounts(filteredAccounts.map(account => (account.id === id ? updatedAccount : account)));
                     SetEditAccount(null);
@@ -99,6 +146,9 @@ function Login() {
     return (
         <div class="Admin">
             <h2>Admin Page</h2>
+            <div className="role-counts">
+                <p>Total Users: {roleCounts.total} ({roleCounts.user} regular users, {roleCounts.admin} administrators)</p>
+            </div>
             <input type="text" placeholder="Search..." onChange={handleSearch} />
             <table>
                 <thead>

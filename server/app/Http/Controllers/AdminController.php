@@ -17,7 +17,27 @@ class AdminController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        return User::all();
+        // Get all users
+        $users = User::all();
+        
+        // Get role counts directly from the database
+        $roleCounts = User::select('role', \DB::raw('count(*) as count'))
+            ->groupBy('role')
+            ->pluck('count', 'role')
+            ->toArray();
+            
+        // Ensure we have values for both user and admin roles
+        $userCount = $roleCounts['user'] ?? 0;
+        $adminCount = $roleCounts['admin'] ?? 0;
+        
+        return response()->json([
+            'users' => $users,
+            'roleCounts' => [
+                'user' => $userCount,
+                'admin' => $adminCount,
+                'total' => array_sum($roleCounts)
+            ]
+        ]);
     }
 
     public function updateUser(Request $request, $id)
@@ -44,7 +64,31 @@ class AdminController extends Controller
             'request' => $validated,
         ]);
 
+        // Check if role is being changed
+        $roleChanged = isset($validated['role']) && $user->role !== $validated['role'];
+        
         $user->update($validated);
+
+        // If role was changed, recalculate counts
+        if ($roleChanged) {
+            // Get updated role counts
+            $roleCounts = User::select('role', \DB::raw('count(*) as count'))
+                ->groupBy('role')
+                ->pluck('count', 'role')
+                ->toArray();
+                
+            $userCount = $roleCounts['user'] ?? 0;
+            $adminCount = $roleCounts['admin'] ?? 0;
+            
+            return response()->json([
+                'user' => $user,
+                'roleCounts' => [
+                    'user' => $userCount,
+                    'admin' => $adminCount,
+                    'total' => array_sum($roleCounts)
+                ]
+            ]);
+        }
 
         return response()->json($user);
     }
@@ -59,9 +103,7 @@ class AdminController extends Controller
         // Don't allow deleting yourself
         if (auth()->id() == $id) {
             return response()->json(['message' => 'Cannot delete your own account'], 400);
-        }
-
-        $user = User::findOrFail($id);
+        }        $user = User::findOrFail($id);
         $user->delete();
 
         return response()->json(['message' => 'User deleted successfully']);
