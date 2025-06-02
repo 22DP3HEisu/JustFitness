@@ -25,7 +25,7 @@ class AuthController extends Controller
             'user_id' => $user->id,
             'weight' => $data['weight'],
             'height' => $data['height'],
-            'age' => $data['age'],
+            'age' => $data['dateOfBirth'],
             'goal_weight' => $data['goalWeight'],
             'activity_level' => $data['activityLevel'],
             'unit_preference' => $data['unitPreference'],

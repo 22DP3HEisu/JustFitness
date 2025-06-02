@@ -29,7 +29,7 @@ class RegisterRequest extends FormRequest
             'password' => 'required|string|min:8',
             'weight' => 'required|integer|min:0',
             'height' => 'required|integer|min:0',
-            'age' => 'required|integer|min:0|max:150',
+            'dateOfBirth' => 'required|date|before:today',
             'goalWeight' => 'required|integer|min:0',
             'activityLevel' => 'required|in:light,moderate,active,very_active',
             'unitPreference' => 'required|in:metric,imperial',

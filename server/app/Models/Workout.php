@@ -10,30 +10,23 @@ class Workout extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'name',
         'description',
+        'duration',
+        'is_public',
+        'user_id',
     ];
 
-    /**
-     * Define the relationship to the User model.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+    public function exercises()
+    {
+        // Update the withPivot to include set_number instead of sets
+        return $this->belongsToMany(Exercise::class, 'workout_exercises')
+            ->withPivot('set_number', 'reps', 'weight', 'rest_time', 'created_at', 'updated_at')
+            ->withTimestamps();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Define the relationship to the Exercise model through the pivot table.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function exercises()
-    {
-        return $this->belongsToMany(Exercise::class, 'workout_exercises')
-                    ->withPivot('sets', 'reps', 'duration')
-                    ->withTimestamps();
     }
 }

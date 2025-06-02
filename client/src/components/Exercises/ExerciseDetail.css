@@ -1,0 +1,262 @@
+/* Exercise Detail Page Styling */
+.exercise-detail-container {
+  color: white;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100%;
+}
+
+.exercise-detail-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.back-button {
+  background-color: #3A4E48;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+
+.back-button:hover {
+  background-color: #4c635d;
+}
+
+.exercise-detail-title {
+  color: #F4C95D;
+  font-size: 2.5rem;
+  margin: 0;
+  flex-grow: 1;
+  margin-bottom: 10px;
+}
+
+.exercise-badge-container {
+  display: flex;
+  align-items: center;
+}
+
+.visibility-badge {
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.visibility-badge.public {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.visibility-badge.private {
+  background-color: #FF9800;
+  color: white;
+}
+
+/* Exercise content */
+.exercise-detail-content {
+  background-color: #2C3E3B;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+/* Media section */
+.exercise-detail-media {
+  position: relative;
+  max-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  min-height: 300px;
+}
+
+.exercise-media-item {
+  max-width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.loaded .exercise-media-item {
+  opacity: 1;
+}
+
+/* Loading spinner */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  border-top-color: #F4C95D;
+  animation: spin 1s linear infinite;
+  z-index: 2;
+}
+
+.loaded .loading-spinner {
+  display: none;
+}
+
+.loading-message, .error-message {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 40px 0;
+  color: #ccc;
+}
+
+.error-message {
+  color: #e57373;
+}
+
+/* Detail sections */
+.exercise-detail-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  color: #F4C95D;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-content {
+  color: #e0e0e0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.no-content-message {
+  color: #aaa;
+  font-style: italic;
+}
+
+.exercise-description {
+  white-space: pre-line;
+}
+
+/* Muscle groups */
+.muscle-groups-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.muscle-group-tag {
+  background-color: rgba(244, 201, 93, 0.2);
+  color: #F4C95D;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.muscle-group-tag.large {
+  font-size: 1rem;
+  padding: 8px 15px;
+}
+
+.muscle-group-tag:hover {
+  background-color: rgba(244, 201, 93, 0.3);
+}
+
+.creator-info {
+  font-weight: 500;
+}
+
+/* Action buttons */
+.exercise-detail-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.edit-button, .add-to-workout-button {
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-family: 'RussoOne', sans-serif;
+  font-size: 1rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.edit-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #3e8e41;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.add-to-workout-button {
+  background-color: #F4C95D;
+  color: #2C3E3B;
+}
+
+.add-to-workout-button:hover {
+  background-color: #f3bc3c;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .exercise-detail-title {
+    font-size: 2rem;
+  }
+  
+  .exercise-detail-content {
+    padding: 15px;
+  }
+  
+  .exercise-detail-media {
+    min-height: 200px;
+  }
+  
+  .exercise-detail-actions {
+    flex-direction: column;
+  }
+  
+  .edit-button, .add-to-workout-button {
+    width: 100%;
+    text-align: center;
+  }
+}

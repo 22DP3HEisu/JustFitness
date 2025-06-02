@@ -1,0 +1,87 @@
+/* Media upload styles */
+.media-upload-container {
+  margin-top: 10px;
+}
+
+.media-input {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+.media-preview-container {
+  margin-top: 15px;
+  min-height: 100px;
+}
+
+.media-preview {
+  position: relative;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 300px;
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.media-preview-item {
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: contain; /* Preserve aspect ratio */
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.remove-media-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(220, 53, 69, 0.8);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.remove-media-btn:hover {
+  background-color: rgba(220, 53, 69, 1);
+}
+
+.media-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  padding: 20px;
+  text-align: center;
+}
+
+.media-format-hint {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
+
+.media-error-message {
+  color: #dc3545;
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+}

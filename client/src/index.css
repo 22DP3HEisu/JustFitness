@@ -5,7 +5,7 @@
   font-style: normal;
 }
 
-html, body {
+html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -13,33 +13,67 @@ html, body {
   background-color: #3A4E48;
   color: white;
   font-family: 'RussoOne', sans-serif;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Apply border-box to all elements */
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 .App {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensures the app takes up the full height of the viewport */
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden; /* Let MainContent handle the scrolling */
 }
 
-header {
-  display: flex;
-  border-bottom: 1px solid white;
-  padding: 15px;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0; /* Prevents the header from shrinking */
-}
-
+/* Main content styling adjusted for new navigation */
 .MainContent {
-  flex-grow: 1; /* Makes the main content fill the remaining space */
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
-  overflow: auto; /* Ensures content is scrollable if it overflows */
+  margin-top: 60px; /* Space for the top navigation bar */
+  transition: margin-left 0.3s ease;
+  width: 100%;
+  position: relative;
+  height: calc(100vh - 60px); /* Ensure content has correct height */
+  overflow-y: auto; /* Enable vertical scrolling when needed */
 }
 
+/* Adjust main content for mini sidebar on larger screens */
+@media (min-width: 992px) {
+  .MainContent {
+    margin-left: 60px; /* Space for the mini sidebar */
+    width: calc(100% - 60px); /* Adjust width to account for sidebar */
+    height: calc(100vh - 60px); /* Maintain correct height accounting for top bar */
+  }
+  
+  /* Ensure app content fills available space */
+  html, body, #root, .App {
+    height: 100%;
+    overflow-x: hidden;
+  }
+}
+
+/* Adjust for mobile devices */
+@media (max-width: 768px) {
+  .MainContent {
+    padding: 15px 10px;
+    height: calc(100vh - 60px); /* Maintain correct height on mobile */
+  }
+}
+
+/* Container for each route's content */
+.MainContent > * {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Button styling */
 .Button1 {
   background-color: #3A4E48;
   color: white;
@@ -50,16 +84,63 @@ header {
   font-size: 1em;
   font-family: 'RussoOne', sans-serif;
   text-decoration: none;
-  transition: background-color 0.3s ease;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
   border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  text-align: center;
 }
 
 .Button1:hover {
   background-color: #F4C95D;
   color: #3A4E48;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.Button1:disabled {
+  background-color: #5a6d68;
+  color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.8;
+}
+
+.Button1:disabled:hover {
+  background-color: #5a6d68;
+  color: #cccccc;
+  transform: none;
+  box-shadow: none;
 }
 
 .error {
   color: red;
+}
+
+/* Toast notification styling */
+.Toastify__toast-container {
+  z-index: 9999;
+}
+
+.Toastify__toast {
+  background-color: #2C3E3B;
+  color: white;
+  border-radius: 4px;
+}
+
+.Toastify__toast--success {
+  border-left: 4px solid #F4C95D;
+}
+
+.Toastify__toast--error {
+  border-left: 4px solid #ff5252;
+}
+
+.Toastify__toast--info {
+  border-left: 4px solid #2196f3;
+}
+
+.Toastify__toast--warning {
+  border-left: 4px solid #ff9800;
 }

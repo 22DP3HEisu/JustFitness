@@ -52,4 +52,24 @@ class User extends Authenticatable
     {
         return $this->hasOne(Preferences::class);
     }
+
+    /**
+     * Check if the user is an admin
+     * 
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Define the relationship to exercises
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function exercises()
+    {
+        return $this->hasMany(Exercise::class);
+    }
 }

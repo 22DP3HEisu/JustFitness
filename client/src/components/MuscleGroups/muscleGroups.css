@@ -1,0 +1,134 @@
+.muscle-groups-container {
+  color: white;
+  width: 100%;
+  padding: 20px;
+  min-height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.muscle-groups-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.muscle-groups-list {
+    background-color: #2C3E3B;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
+    max-width: 900px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.muscle-groups-list:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+}
+
+.muscle-groups-subtitle {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.muscle-groups-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 20px;
+    color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.muscle-groups-table th, .muscle-groups-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #4A6E68;
+}
+
+.muscle-groups-table th {
+    background-color: #1A2E2B;
+    font-weight: bold;
+    color: #F4C95D;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.muscle-groups-table tr:last-child td {
+    border-bottom: none;
+}
+
+.muscle-groups-table tr:hover {
+    background-color: #3A4E48;
+    transition: background-color 0.2s ease;
+}
+
+.info-message {
+    background-color: #1A2E2B;
+    padding: 12px 18px;
+    border-radius: 6px;
+    margin-top: 25px;
+    border-left: 4px solid #F4C95D;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.info-message:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.info-message p {
+    margin: 0;
+    color: white;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .muscle-groups-table th, .muscle-groups-table td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    
+    .muscle-groups-title {
+        font-size: 2rem;
+    }
+    
+    .muscle-groups-subtitle {
+        font-size: 1.5rem;
+    }
+    
+    .info-message p {
+        font-size: 0.85rem;
+    }
+}
+
+.loading-message {
+    color: #F4C95D;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 150px;
+    font-family: 'RussoOne', sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}

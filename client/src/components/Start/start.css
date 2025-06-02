@@ -1,0 +1,60 @@
+/* filepath: c:\Users\heisu\Documents\Skola\JustFitness\client\src\components\Start\start.css */
+#imgWrapper {
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+#backgroundImg {
+    width: 100%;
+    display: block;
+}
+
+#backgroundGradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), #3A4E48);
+    z-index: 1;
+}
+
+#imgWrapper h1 {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #F4C95D;
+    font-size: 2.5rem;
+    max-width: 80%;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    z-index: 2;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.start-cta {
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0; /* Override Button1's margin */
+    z-index: 2;
+    animation: fadeIn 1.5s ease-in-out 0.5s both;
+}
+
+.start-cta:hover {
+    transform: translateX(-50%) translateY(-3px); /* Keep it centered horizontally */
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

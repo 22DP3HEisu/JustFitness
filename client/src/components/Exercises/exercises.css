@@ -1,0 +1,361 @@
+/* Exercises Page Styling */
+.exercises-container {
+  color: white;
+  width: 100%;
+  padding: 20px;
+  min-height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.exercises-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #F4C95D;
+}
+
+.loading-message {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 40px 0;
+  color: #ccc;
+}
+
+/* Filter controls */
+.exercises-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #2C3E3B;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-input,
+.filter-select {
+  width: 100%;
+  padding: 10px;
+  background-color: #3A4E48;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  color: white;
+  font-family: 'RussoOne', sans-serif;
+  font-size: 0.9em;
+  transition: all 0.3s ease;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  outline: none;
+  border-color: #F4C95D;
+  box-shadow: 0 0 0 2px rgba(244, 201, 93, 0.25);
+}
+
+.filter-select option {
+  background-color: #3A4E48;
+  color: white;
+}
+
+/* Create exercise button */
+.create-exercise-button {
+  margin: 20px 0;
+  padding: 12px 24px;
+  font-size: 1rem;
+  align-self: flex-start;
+  background-color: #F4C95D;
+  color: #2C3E3B;
+  border: none;
+  font-weight: bold;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.create-exercise-button:hover {
+  background-color: #f3bc3c;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Exercise sections */
+.exercises-section {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  color: #F4C95D;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #3A4E48;
+}
+
+.exercise-count {
+  font-size: 1rem;
+  color: #ccc;
+  margin-left: 10px;
+  font-weight: normal;
+}
+
+/* Exercises grid */
+.exercises-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.exercise-card {
+  background-color: #2C3E3B;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.exercise-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  border-left-color: #F4C95D;
+}
+
+/* Add a colored border to the top of the card based on visibility */
+.exercise-card .visibility-badge.public ~ .exercise-card {
+  border-top-color: #4CAF50;
+}
+
+.exercise-card .visibility-badge.private ~ .exercise-card {
+  border-top-color: #FF9800;
+}
+
+.exercise-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.exercise-name {
+  font-size: 1.3rem;
+  color: #F4C95D;
+  margin: 0;
+}
+
+.visibility-badge {
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.visibility-badge.public {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.visibility-badge.private {
+  background-color: #FF9800;
+  color: white;
+}
+
+.exercise-description {
+  margin-bottom: 15px;
+  flex-grow: 1;
+  color: #ccc;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.exercise-creator {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+/* Exercise media */
+.exercise-media {
+  margin-bottom: 15px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 200px;
+  position: relative;
+}
+
+.exercise-media-item {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* Lazy loading for media */
+.exercise-media-item {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.exercise-media-item.loaded {
+  opacity: 1;
+}
+
+/* Media placeholder while loading */
+.exercise-media::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.exercise-media::after {
+  content: 'Loading...';
+  position: absolute;
+  color: white;
+  z-index: 2;
+  font-size: 14px;
+}
+
+.exercise-media.loaded::before,
+.exercise-media.loaded::after {
+  display: none;
+}
+
+.exercise-muscle-groups {
+  margin-bottom: 15px;
+}
+
+.muscle-groups-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.muscle-group-tag {
+  background-color: #3A4E48;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  display: inline-block;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.muscle-group-tag:hover {
+  background-color: #4a5e58;
+  transform: translateY(-1px);
+}
+
+.no-muscle-groups {
+  color: #999;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+.exercise-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.view-details-button, .edit-button, .delete-button {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-family: 'RussoOne', sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.view-details-button {
+  background-color: #3A4E48;
+  color: white;
+}
+
+.view-details-button:hover {
+  background-color: #4c635d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Button2 - Edit button styling */
+.Button2 {
+  background-color: #457b9d;
+  color: white;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.Button2:hover {
+  background-color: #2a9d8f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Button3 - Delete button styling */
+.Button3 {
+  background-color: #e63946;
+  color: white;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.Button3:hover {
+  background-color: #d62828;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.edit-button:disabled, .delete-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  background-color: #5a6d68;
+}
+
+.no-exercises-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  background-color: #2C3E3B;
+  border-radius: 10px;
+  color: #ccc;
+}

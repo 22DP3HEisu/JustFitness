@@ -1,21 +1,27 @@
 import React, { useContext } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { UserContext } from './Contexts/UserContext';
 import axios from "./lib/axios.js";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import Header from './routes/Header/Header';
-import PrivateRoute from './routes/PrivateRoute';
-import AdminRoute from "./routes/AdminRoute";
+import Navigation from './components/Navigation/Navigation.js';
+import PrivateRoute from './components/PrivateRoute.js';
+import AdminRoute from "./components/AdminRoute.js";
 
-import Start from './routes/Start/start';
-import Login from './routes/Login/login';
-import SignUp from './routes/SignUp/signup';
-import Profile from './routes/Profile/profile';
-import Workouts from './routes/Workouts/workouts';
-import CreateWorkout from "./routes/CreateWorkout/createWorkout";
-import AdminPage from "./routes/Admin/admin";
+import Start from './components/Start/start.js';
+import Login from './components/Login/login.js';
+import SignUp from './components/SignUp/signup.js';
+import Profile from './components/Profile/profile.js';
+import Workouts from './components/Workouts/workouts.js';
+import CreateWorkout from "./components/CreateWorkout/createWorkout.js";
+import WorkoutDetail from "./components/Workouts/WorkoutDetail.js";
+import Exercises from "./components/Exercises/exercises.js";
+import ExerciseDetail from "./components/Exercises/ExerciseDetail.js";
+import AdminPage from "./components/Admin/admin.js";
+import MuscleGroups from './components/MuscleGroups/muscleGroups.js';
 
-export default function App() {
+export default function App() {    
     const {user, setUser} = useContext(UserContext);
 
     const handleLogout = () => {
@@ -25,38 +31,34 @@ export default function App() {
                 window.localStorage.removeItem("token");
                 // Reset the user context
                 setUser(null);
-
                 console.log("Logout successful:", response.data);
-                
             })
             .catch(error => {
                 console.error("Logout failed:", error);
-            });
-    };
-
-    return (
-      <>
-        <Header user={user} />
+            });    };    
+        return (
+      <div className="App">
+        <Navigation user={user} />
         <div className="MainContent">
           <Routes>
               <Route path="/" element={<Start />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/muscle-groups" element={<MuscleGroups />} />
               <Route
                   path="/*"
-                  element={
-                    <PrivateRoute>
-                        <Routes>
-                            <Route path="/profile" element={<Profile user={user} onLogout={handleLogout} />} />
-                            <Route path="/workouts" element={<Workouts/>} />
-                            <Route path="/create-workout" element={<CreateWorkout/>} />
-                        </Routes>
+                  element={                    <PrivateRoute>                      <Routes>                        <Route path="/profile" element={<Profile user={user} onLogout={handleLogout} />} />                        <Route path="/workouts" element={<Workouts />} />
+                        <Route path="/workouts/:id" element={<WorkoutDetail />} />
+                        <Route path="/create-workout" element={<CreateWorkout />} />
+                        <Route path="/exercises" element={<Exercises />} />
+                        <Route path="/exercises/:id" element={<ExerciseDetail />} />
+                        <Route path="/create-exercise" element={<Navigate to="/exercises" replace />} />
+                      </Routes>
                     </PrivateRoute>
-                  }
-              />
-            <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
-          </Routes>
+                  }              />
+            <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />          
+          </Routes></div>
+        <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       </div>
-      </>
     );
   }

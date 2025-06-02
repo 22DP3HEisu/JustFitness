@@ -1,0 +1,234 @@
+/* Exercise Modal Styling */
+.exercise-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.exercise-modal {
+  background-color: #2C3E3B;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  color: white;
+  border-top: 4px solid #F4C95D;
+  animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.exercise-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #3A4E48;
+}
+
+.exercise-modal-header h2 {
+  color: #F4C95D;
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #ccc;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-button:hover {
+  color: white;
+}
+
+/* Form styling */
+.exercise-modal .form-group {
+  margin-bottom: 20px;
+}
+
+.exercise-modal .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.exercise-modal .form-group input[type="text"],
+.exercise-modal .form-group textarea,
+.exercise-modal .form-group select {
+  width: 100%;
+  padding: 12px;
+  background-color: #3A4E48;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  color: white;
+  font-family: 'RussoOne', sans-serif;
+  font-size: 1em;
+  transition: all 0.3s ease;
+}
+
+.exercise-modal .form-group input[type="text"]:focus,
+.exercise-modal .form-group textarea:focus,
+.exercise-modal .form-group select:focus {
+  outline: none;
+  border-color: #F4C95D;
+  box-shadow: 0 0 0 2px rgba(244, 201, 93, 0.25);
+}
+
+.exercise-modal .form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Muscle groups grid */
+.exercise-modal .muscle-groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.exercise-modal .muscle-group-item {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #3A4E48;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.exercise-modal .muscle-group-item:hover {
+  background-color: #4a5e58;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.exercise-modal .muscle-group-item.selected {
+  background-color: #F4C95D;
+  color: #2C3E3B;
+  border-color: #F4C95D;
+  font-weight: bold;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(244, 201, 93, 0.3);
+}
+
+/* Visibility control */
+.visibility-control {
+  margin-top: 15px;
+  background-color: #3A4E48;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.visibility-control:hover {
+  border-color: rgba(244, 201, 93, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: normal;
+  transition: all 0.2s ease;
+}
+
+.checkbox-label:hover {
+  color: #F4C95D;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 10px;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: #F4C95D;
+}
+
+/* Modal actions */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.cancel-button, .save-button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  min-width: 130px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-family: 'RussoOne', sans-serif;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Button3 - Cancel button styling */
+.cancel-button {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Button1 - Save button styling */
+.save-button {
+  background-color: #F4C95D;
+  color: #2C3E3B;
+  font-weight: bold;
+}
+
+.save-button:hover {
+  background-color: #e0b94a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(244, 201, 93, 0.3);
+}
+
+.Button1.save-button:hover {
+  background-color: #f3bc3c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.cancel-button:disabled, .save-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
