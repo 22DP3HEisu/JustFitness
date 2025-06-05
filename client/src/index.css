@@ -39,6 +39,7 @@ html, body, #root {
   margin-top: 60px; /* Space for the top navigation bar */
   transition: margin-left 0.3s ease;
   width: 100%;
+  padding: 5px;
   position: relative;
   height: calc(100vh - 60px); /* Ensure content has correct height */
   overflow-y: auto; /* Enable vertical scrolling when needed */

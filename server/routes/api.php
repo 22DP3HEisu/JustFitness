@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MuscleGroupController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\WorkoutController;
+use App\Http\Controllers\FoodController;
+use App\Http\Controllers\MealLogController;
 
 // Authentication routes
 Route::middleware('auth:sanctum')->group(function () {
@@ -23,6 +25,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/workouts/{workoutId}/exercises', [WorkoutController::class, 'addExerciseToWorkout']);
     Route::put('/workouts/{workoutId}/exercises/{exerciseId}/sets/{setNumber}', [WorkoutController::class, 'updateWorkoutExercise']);
     Route::delete('/workouts/{workoutId}/exercises/{exerciseId}', [WorkoutController::class, 'removeExerciseFromWorkout']);
+    
+    // Food routes
+    Route::apiResource('foods', controller: FoodController::class);
+    
+    // Meal Log routes
+    Route::apiResource('meal-logs', controller: MealLogController::class);
+    Route::get('/meal-summary', [MealLogController::class, 'summary']);
 });
 
 Route::post("/login", [AuthController::class, "login"])->name("login");
@@ -37,3 +46,6 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
 // Muscle Group routes - read only
 Route::get('muscle-groups', [MuscleGroupController::class, 'index']);
 Route::get('muscle-groups/{id}', [MuscleGroupController::class, 'show']);
+
+// Public Food routes - read only
+Route::get('public-foods', [FoodController::class, 'index']);

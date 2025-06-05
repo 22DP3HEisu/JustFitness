@@ -72,4 +72,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(Exercise::class);
     }
+
+    /**
+     * Define the relationship to foods
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function foods()
+    {
+        return $this->hasMany(Food::class);
+    }
+
+    /**
+     * Define the relationship to meal logs
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function mealLogs()
+    {
+        return $this->hasMany(MealLog::class);
+    }
 }

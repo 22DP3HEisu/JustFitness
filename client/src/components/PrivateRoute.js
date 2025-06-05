@@ -1,15 +1,21 @@
-import React, { useContext } from 'react';
-import { Navigate } from 'react-router-dom';
-import { UserContext } from '../Contexts/UserContext';
+import React from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
+import { usePermission, PERMISSIONS } from '../utils/permissions';
 
-function PrivateRoute({ children }) {
-  const { user, loading } = useContext(UserContext);
+function PrivateRoute({ children, permission = PERMISSIONS.AUTHENTICATED }) {
+  const { hasPermission, isLoading } = usePermission();
+  const location = useLocation();
 
-  if (loading) {
+  if (isLoading) {
     return <p>Loading...</p>;
   }
 
-  return user ? children : <Navigate to="/" />;
+  if (!hasPermission(permission)) {
+    // Redirect to login if not authenticated, or home if authenticated but not authorized
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
 }
 
 export default PrivateRoute;

@@ -10,7 +10,7 @@ import useNavItems from './useNavItems';
 
 const Navigation = ({ user }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const filteredNavItems = useNavItems(user);
+    const filteredNavItems = useNavItems();
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);

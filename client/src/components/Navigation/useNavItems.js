@@ -1,32 +1,37 @@
-import PropTypes from 'prop-types';
+import { usePermission, PERMISSIONS } from '../../utils/permissions';
 
 // Navigation items data and filtering logic
-const useNavItems = (user) => {    // Define navigation items with icons
+const useNavItems = () => {
+    const { hasPermission } = usePermission();
+    
+    // Define navigation items with icons and required permission
     const navItems = [
-        { to: '/', label: 'Home', icon: 'home', showWhen: 'always' },        { to: '/workouts', label: 'Workouts', icon: 'fitness_center', showWhen: 'authenticated' },
-        { to: '/create-workout', label: 'Create Workout', icon: 'add_circle', showWhen: 'authenticated' },
-        { to: '/create-exercise', label: 'Create Exercise', icon: 'sports_gymnastics', showWhen: 'authenticated' },
-        { to: '/muscle-groups', label: 'Muscle Groups', icon: 'self_improvement', showWhen: 'authenticated' },
-        { to: '/profile', label: 'Profile', icon: 'person', showWhen: 'authenticated' },
-        { to: '/admin', label: 'Admin', icon: 'admin_panel_settings', showWhen: 'admin' },
-        { to: '/login', label: 'Login', icon: 'login', showWhen: 'unauthenticated' },
-        { to: '/signup', label: 'Sign Up', icon: 'person_add', showWhen: 'unauthenticated' },
+        { to: '/', label: 'Home', icon: 'home', permission: PERMISSIONS.PUBLIC },
+        { to: '/workouts', label: 'Workouts', icon: 'fitness_center', permission: PERMISSIONS.AUTHENTICATED },
+        { to: '/create-workout', label: 'Create Workout', icon: 'add_circle', permission: PERMISSIONS.AUTHENTICATED },
+        { to: '/create-exercise', label: 'Create Exercise', icon: 'sports_gymnastics', permission: PERMISSIONS.AUTHENTICATED },
+        { to: '/muscle-groups', label: 'Muscle Groups', icon: 'self_improvement', permission: PERMISSIONS.PUBLIC },
+        { to: '/nutrition', label: 'Nutrition', icon: 'restaurant', permission: PERMISSIONS.AUTHENTICATED },
+        { to: '/profile', label: 'Profile', icon: 'person', permission: PERMISSIONS.AUTHENTICATED },
+        { to: '/admin', label: 'Admin', icon: 'admin_panel_settings', permission: PERMISSIONS.ADMIN },
+        { to: '/login', label: 'Login', icon: 'login', permission: PERMISSIONS.PUBLIC, hideWhenAuth: true },
+        { to: '/signup', label: 'Sign Up', icon: 'person_add', permission: PERMISSIONS.PUBLIC, hideWhenAuth: true },
     ];
 
-    // Filter navigation items based on user's authentication status
+    // Filter navigation items based on permissions
     const filteredNavItems = navItems.filter(item => {
-        if (item.showWhen === 'always') return true;
-        if (item.showWhen === 'authenticated' && user) return true;
-        if (item.showWhen === 'unauthenticated' && !user) return true;
-        if (item.showWhen === 'admin' && user && user.role === 'admin') return true;
-        return false;
+        // Check if the user has permission for this item
+        const hasRequiredPermission = hasPermission(item.permission);
+        
+        // Special case: hide login/signup when authenticated
+        if (item.hideWhenAuth && hasPermission(PERMISSIONS.AUTHENTICATED)) {
+            return false;
+        }
+        
+        return hasRequiredPermission;
     });
 
     return filteredNavItems;
-};
-
-useNavItems.propTypes = {
-    user: PropTypes.object
 };
 
 export default useNavItems;
