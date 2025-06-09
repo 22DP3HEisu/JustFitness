@@ -84,9 +84,3 @@ php artisan serve
 3. Create custom workout plans or select from recommended templates
 4. Track daily nutrition and fitness progress
 5. Update profile preferences for personalized recommendations
-
-## Acknowledgments
-
-- Special thanks to all contributors who participated in the development
-- Exercise data sourced from verified fitness resources
-- Nutrition information provided by reliable dietary databases
