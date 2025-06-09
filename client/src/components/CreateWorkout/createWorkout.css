@@ -233,8 +233,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   background-color: #F4C95D;
   color: #2C3E3B;
   border-radius: 50%;
@@ -258,14 +258,16 @@
   background: none;
   border: none;
   font-size: 1.2rem;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s ease;
+  padding: 0;
+  min-width: unset;
 }
 
 .edit-button {
@@ -572,8 +574,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   background-color: #F4C95D;
   color: #2C3E3B;
   border-radius: 50%;

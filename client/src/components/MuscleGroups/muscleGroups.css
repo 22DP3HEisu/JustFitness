@@ -76,6 +76,7 @@
     border-radius: 6px;
     margin-top: 25px;
     border-left: 4px solid #F4C95D;
+    align-self: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }

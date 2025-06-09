@@ -183,52 +183,54 @@
 }
 
 .cancel-button, .save-button {
-  padding: 12px 24px;
-  font-size: 1rem;
-  min-width: 130px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  font-family: 'RussoOne', sans-serif;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Button3 - Cancel button styling */
-.cancel-button {
-  background-color: transparent;
-  border: 1px solid white;
+  background-color: #3A4E48;
   color: white;
+  border: 1px solid white;
+  padding: 12px 24px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'RussoOne', sans-serif;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: inline-block;
+  text-align: center;
+  min-width: 130px;
 }
 
-.cancel-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Button1 - Save button styling */
-.save-button {
+.cancel-button:hover, .save-button:hover {
   background-color: #F4C95D;
-  color: #2C3E3B;
-  font-weight: bold;
+  color: #3A4E48;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-color: #F4C95D;
 }
 
-.save-button:hover {
-  background-color: #e0b94a;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(244, 201, 93, 0.3);
+.cancel-button {
+  background-color: #F44336;
+  border-color: #F44336;
+}
+
+.save-button {
+  background-color: #3A4E48;
 }
 
 .Button1.save-button:hover {
-  background-color: #f3bc3c;
-  transform: translateY(-2px);
+  background-color: #F4C95D;
+  color: #3A4E48;
+  transform: translateY(-3px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-color: #F4C95D;
 }
 
 .cancel-button:disabled, .save-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #5a6d68 !important;
+  color: #cccccc !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+  opacity: 0.8 !important;
+  border-color: #5a6d68 !important;
 }

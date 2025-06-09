@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\MuscleGroupController;
 use App\Http\Controllers\ExerciseController;
 use App\Http\Controllers\WorkoutController;
@@ -15,6 +16,8 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user()->load('preferences');
     });
 
+    Route::put('/user/profile', [App\Http\Controllers\UserController::class, 'updateProfile']);
+    Route::put('/user/password', [App\Http\Controllers\UserController::class, 'updatePassword']);
     Route::post("/logout", [AuthController::class, "logout"])->name("logout");
     Route::apiResource('exercises', controller: ExerciseController::class);
     

@@ -11,8 +11,8 @@ function Login() {
     const [SortOrder, SetSortOrder] = useState("asc");
     const [EditAccount, SetEditAccount] = useState(null);
     const [Edits, SetEdits] = useState({});
-    
-    useEffect(() => {
+    const [roleFilter, setRoleFilter] = useState("all");
+      useEffect(() => {
         axios.get("/admin/users")
             .then(({ data }) => {
                 // Check if data has users property (new API structure)
@@ -30,6 +30,34 @@ function Login() {
                 console.error("Failed to fetch accounts:", err);
             });
     }, []);
+    
+    // Effect to reapply filters when Accounts or roleFilter changes
+    useEffect(() => {
+        // Skip on initial load when Accounts is empty
+        if (Accounts.length === 0) return;
+        
+        const filtered = Accounts.filter(account => {
+            // Apply role filter
+            if (roleFilter !== "all" && account.role !== roleFilter) {
+                return false;
+            }
+            
+            // Get current search term if it exists
+            const searchInput = document.querySelector('input[type="text"]');
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+            
+            // Apply search term filter
+            if (searchTerm) {
+                return Object.values(account).some(value =>
+                    String(value).toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            return true;
+        });
+        
+        SetFilteredAccounts(filtered);
+    }, [Accounts, roleFilter]);
 
     const orderBy = (column) => {
         const newSortOrder = SortBy === column && SortOrder === "asc" ? "desc" : "asc";
@@ -45,18 +73,45 @@ function Login() {
         });
 
         SetFilteredAccounts(sortedAccounts);
-    };
-
-    const handleSearch = (event) => {
+    };    const handleSearch = (event) => {
         const searchTerm = event.target.value.toLowerCase();
 
-        const filteredAccounts = Accounts.filter(account => {
+        const filtered = Accounts.filter(account => {
+            // First check role filter
+            if (roleFilter !== "all" && account.role !== roleFilter) {
+                return false;
+            }
+            
+            // Then check search term
             return Object.values(account).some(value =>
                 String(value).toLowerCase().includes(searchTerm)
             );
         });
 
-        SetFilteredAccounts(filteredAccounts);
+        SetFilteredAccounts(filtered);
+    }
+    
+    const handleRoleFilterChange = (event) => {
+        const selectedRole = event.target.value;
+        setRoleFilter(selectedRole);
+        
+        // Apply both filters
+        const searchInput = document.querySelector('input[type="text"]');
+        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+        
+        const filtered = Accounts.filter(account => {
+            // Apply role filter
+            if (selectedRole !== "all" && account.role !== selectedRole) {
+                return false;
+            }
+            
+            // Apply search term
+            return Object.values(account).some(value =>
+                String(value).toLowerCase().includes(searchTerm)
+            );
+        });
+        
+        SetFilteredAccounts(filtered);
     }
     
     const handleDelete = (id) => {
@@ -95,24 +150,18 @@ function Login() {
             [field]: value
         });
     };
-    
-    const handleEdit = (id) => {
+      const handleEdit = (id) => {
         if (EditAccount === id) {
-            console.log("Saving changes for account:", id);const updatedAccount = {
+            console.log("Saving changes for account:", id);
+            const updatedAccount = {
                 ...Accounts.find(account => account.id === id),
                 ...Edits
             };
             
             axios.put(`/admin/users/${id}`, updatedAccount)
                 .then((response) => {
-                    // Handle the response data
-                    let updatedUser = updatedAccount;
-                    
                     // Check if response includes user and roleCounts
                     if (response.data && response.data.roleCounts) {
-                        if (response.data.user) {
-                            updatedUser = response.data.user;
-                        }
                         setRoleCounts(response.data.roleCounts);
                     } else {
                         // Fallback to manual calculation
@@ -145,11 +194,27 @@ function Login() {
 
     return (
         <div class="Admin">
-            <h2>Admin Page</h2>
-            <div className="role-counts">
+            <h2>Admin Page</h2>            <div className="role-counts">
                 <p>Total Users: {roleCounts.total} ({roleCounts.user} regular users, {roleCounts.admin} administrators)</p>
             </div>
-            <input type="text" placeholder="Search..." onChange={handleSearch} />
+            
+            <div className="filter-container">
+                <input type="text" placeholder="Search..." onChange={handleSearch} />
+                
+                <div className="role-filter">
+                    <label htmlFor="role-filter">Filter by role: </label>
+                    <select 
+                        id="role-filter" 
+                        value={roleFilter} 
+                        onChange={handleRoleFilterChange}
+                    >
+                        <option value="all">All Roles</option>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+            </div>
+            
             <table>
                 <thead>
                     <tr>

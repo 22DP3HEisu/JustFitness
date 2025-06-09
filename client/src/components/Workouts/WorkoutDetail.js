@@ -152,42 +152,57 @@ export default function WorkoutDetail() {
   const handleStartWorkout = () => {
     // This would navigate to a workout session page in a future implementation
     toast.info('Workout session feature coming soon!');
-  };
-
+  };  
   const handleAddSet = async (exerciseId) => {
-    const updatedWorkout = { ...workout };
-    const exerciseIndex = updatedWorkout.exercises.findIndex(ex => ex.id === exerciseId);
-    
-    if (exerciseIndex !== -1) {
-      const exercise = updatedWorkout.exercises[exerciseIndex];
-      const sets = getSetsFromExercise(exercise);
+    try {
+      const updatedWorkout = { ...workout };
+      const exerciseIndex = updatedWorkout.exercises.findIndex(ex => ex.id === exerciseId);
       
-      // Find the highest set number to determine the next set number
-      let highestSetNumber = 0;
-      sets.forEach(set => {
-        if (set.set_number > highestSetNumber) {
-          highestSetNumber = set.set_number;
-        }
-      });
-      
-      const newSetNumber = highestSetNumber + 1;
-      
-      try {
+      if (exerciseIndex !== -1) {
+        const exercise = updatedWorkout.exercises[exerciseIndex];
+        
+        // Get all sets for this exercise across all instances
+        const sets = [];
+        workout.exercises.forEach(ex => {
+          if (ex.id === exerciseId) {
+            const exerciseSets = getSetsFromExercise(ex);
+            sets.push(...exerciseSets);
+          }
+        });
+        
+        console.log("All sets for this exercise:", sets);
+        
+        // Find the highest set number to determine the next set number
+        let highestSetNumber = 0;
+        sets.forEach(set => {
+          const setNum = parseInt(set.set_number);
+          console.log("Checking set number:", setNum);
+          if (setNum > highestSetNumber) {
+            highestSetNumber = setNum;
+          }
+        });
+        
+        console.log("Highest set number found:", highestSetNumber);
+        const newSetNumber = highestSetNumber + 1;
+        console.log("New set number will be:", newSetNumber);
+        
         // Call the API to add a new set
-        await axios.post(`/workouts/${id}/exercises`, {
+        const response = await axios.post(`/workouts/${id}/exercises`, {
           exercise_id: exerciseId,
           set_number: newSetNumber,
-          reps: 8, // Default values
+          reps: 10, // Default values
           weight: 0,
           rest_time: 60
         });
         
+        console.log("API response:", response.data);
+        
         toast.success('New set added successfully');
-        fetchWorkout(); // Refresh the workout data
-      } catch (error) {
-        console.error('Error adding new set:', error);
-        toast.error('Failed to add new set');
+        await fetchWorkout(); // Refresh the workout data and wait for it to complete
       }
+    } catch (error) {
+      console.error('Error adding new set:', error);
+      toast.error('Failed to add new set');
     }
   };
 
@@ -224,19 +239,24 @@ export default function WorkoutDetail() {
     });
     return Array.from(muscleGroups);
   };
-
   // Helper function to handle different pivot structures
   const getSetsFromExercise = (exercise) => {
+    let sets = [];
+    
     // If pivot is not an array but an object, wrap it in an array
     if (exercise.pivot && !Array.isArray(exercise.pivot)) {
-      return [exercise.pivot];
+      sets = [exercise.pivot];
     }
     // If it's already an array, return it
     else if (Array.isArray(exercise.pivot)) {
-      return exercise.pivot;
+      sets = exercise.pivot;
     }
-    // Fallback: return empty array
-    return [];
+    
+    // Ensure each set has a set_number property
+    return sets.map(set => ({
+      ...set,
+      set_number: parseInt(set.set_number)  // Ensure set_number is a number
+    }));
   };
 
   return (
@@ -315,8 +335,7 @@ export default function WorkoutDetail() {
             {(() => {
               // Create a map to group exercises by their ID
               const exerciseMap = {};
-              
-              // Group exercises by their ID
+                // Group exercises by their ID
               workout.exercises.forEach(exercise => {
                 const id = exercise.id;
                 
@@ -330,7 +349,17 @@ export default function WorkoutDetail() {
                 
                 // Add set information to the exercise
                 const sets = getSetsFromExercise(exercise);
-                exerciseMap[id].allSets = [...exerciseMap[id].allSets, ...sets];
+                
+                // Only add sets that aren't already present
+                sets.forEach(newSet => {
+                  const existingSetIndex = exerciseMap[id].allSets.findIndex(
+                    existingSet => existingSet.set_number === newSet.set_number
+                  );
+                  
+                  if (existingSetIndex === -1) {
+                    exerciseMap[id].allSets.push(newSet);
+                  }
+                });
               });
               
               // Convert the map to an array and render
@@ -364,10 +393,9 @@ export default function WorkoutDetail() {
                           <div className="set-cell">Weight (kg)</div>
                           <div className="set-cell">Rest (sec)</div>
                         </div>
-                        
-                        {/* Sort sets by set number */}
+                          {/* Sort sets by set number */}
                         {exercise.allSets.sort((a, b) => a.set_number - b.set_number).map((set) => (
-                          <div key={set.set_number} className="set-row">
+                          <div key={`${exercise.id}-${set.set_number}`} className="set-row">
                             <div className="set-cell">{set.set_number}</div>
                             <div className="set-cell">
                               <input

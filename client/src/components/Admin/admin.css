@@ -26,6 +26,41 @@
   color: #555;
 }
 
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-container input[type="text"] {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.role-filter {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.role-filter label {
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.role-filter select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

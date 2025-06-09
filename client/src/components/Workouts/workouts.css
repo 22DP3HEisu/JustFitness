@@ -152,6 +152,9 @@
   cursor: pointer;
   align-self: flex-end;
   transition: all 0.2s ease;
+  min-width: 100px;
+  white-space: nowrap;
+  text-align: center;
 }
 
 .delete-workout-btn:hover {
@@ -176,10 +179,12 @@
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+  transition: all 0.3s ease;
 }
 
 .back-button:hover {
   text-decoration: underline;
+  transform: translateX(-3px);
 }
 
 .workout-detail-header {
@@ -218,6 +223,9 @@
   padding: 8px 15px;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-width: 100px;
+  white-space: nowrap;
+  text-align: center;
 }
 
 .edit-workout-btn:hover {
@@ -429,6 +437,9 @@
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.2s ease;
+  min-width: 100px;
+  white-space: nowrap;
+  text-align: center;
 }
 
 .add-set-btn {
@@ -525,12 +536,16 @@
   margin-top: 15px;
 }
 
+/* Secondary button variant */
 .Button1.secondary {
-  background-color: rgba(108, 117, 125, 0.8);
+  background-color: #3A4E48;
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .Button1.secondary:hover {
-  background-color: rgba(108, 117, 125, 1);
+  background-color: #F4C95D;
+  color: #3A4E48;
+  border-color: #F4C95D;
 }
 
 .no-exercises {

@@ -34,9 +34,9 @@ class Preferences extends Model
     protected $casts = [
         'weight' => 'integer',
         'height' => 'integer', // Stored in centimeters
-        'age' => 'integer',
+        'age' => 'date', // This is actually a birth date
         'goal_weight' => 'integer',
-        'activity_level' => 'string', // Enum values like 'sedentary', 'light', etc.
+        'activity_level' => 'string', // Enum values like 'light', etc.
         'unit_preference' => 'string', // Enum values like 'metric', 'imperial'
     ];
 

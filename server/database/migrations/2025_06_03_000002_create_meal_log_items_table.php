@@ -8,10 +8,10 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     */
-    public function up(): void
+     */    public function up(): void
     {
-        Schema::create('meal_log_items', function (Blueprint $table) {            $table->id();
+        Schema::create('meal_log_items', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('meal_log_id')->constrained()->onDelete('cascade');
             $table->foreignId('food_id')->constrained('foods')->onDelete('cascade');
             $table->float('quantity')->default(1)->comment('Number of servings');
